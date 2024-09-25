@@ -1,18 +1,25 @@
+import { formatPercentage } from "@/utils/helper";
 import { motion } from "framer-motion";
+import { State } from "@/hooks/Functionality";
+
 const Result = ({
+  state,
   errors,
   accuracy,
   total,
-  className,
+  className = "",
 }: {
+  state: State;
   errors: number;
   accuracy: number;
   total: number;
   className?: string;
 }) => {
+  if(state !== "finish"){
+    return null
+  }
   const initial = { opacity: 0 };
   const animate = { opacity: 1 };
-  const duration = { duration: 0.3 };
 
   return (
     <motion.ul
@@ -21,7 +28,7 @@ const Result = ({
       <motion.li
         initial={initial}
         animate={animate}
-        transition={{ ...duration, delay: 0 }}
+        transition={{ duration: 0.3, delay: 0 }}
         className="text-4xl font-semibold"
       >
         Result
@@ -29,14 +36,14 @@ const Result = ({
       <motion.li
         initial={initial}
         animate={animate}
-        transition={{ ...duration, delay: 0.5 }}
+        transition={{ duration: 0.3, delay: 0.5 }}
       >
-        Accuracy: {accuracy}{'%'}
+        Accuracy: {formatPercentage(accuracy)}
       </motion.li>
       <motion.li
         initial={initial}
         animate={animate}
-        transition={{ ...duration, delay: 1 }}
+        transition={{ duration: 0.3, delay: 1 }}
         className="text-red-500"
       >
         Errors: {errors}
@@ -44,7 +51,7 @@ const Result = ({
       <motion.li
         initial={initial}
         animate={animate}
-        transition={{ ...duration, delay: 1.4 }}
+        transition={{ duration: 0.3, delay: 1.4 }}
       >
         Characters Typed: {total}
       </motion.li>

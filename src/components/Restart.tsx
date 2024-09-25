@@ -14,8 +14,9 @@ const Restart = ({
     buttonRef.current?.blur();
     handleRestart();
   };
-  return ( 
+  return (
     <button
+      tabIndex={-1}
       ref={buttonRef}
       onClick={handleClick}
       className={`items-center dark:text-white dark:shadow-slate-800 hover:scale-110 transition-transform duration-200 dark:shadow-sm gap-2 px-4 py-2 rounded-md flex shadow-md ${className}`}

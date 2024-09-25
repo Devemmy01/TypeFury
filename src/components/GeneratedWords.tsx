@@ -1,10 +1,5 @@
-
 const GeneratedWords = ({ words }: { words: string }) => {
-  return (
-    <section className="text-gray-500">
-      {words}
-    </section>
-  );
+  return <div className="text-gray-500">{words}</div>;
 };
 
 export default GeneratedWords;

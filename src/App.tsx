@@ -2,14 +2,15 @@ import { ThemeProvider } from "./components/theme-provider";
 import logo from "./assets/logo.png";
 import { ModeToggle } from "./components/mode-toggle";
 import GeneratedWords from "./components/GeneratedWords";
-import CountDown from "./components/CountDown";
-import { faker } from "@faker-js/faker";
 import Restart from "./components/Restart";
 import Result from "./components/Result";
 import Typing from "./components/Typing";
+import Functionality from "./hooks/Functionality";
+import { calculateAccuracyPercentage } from "./utils/helper";
 
-const words = faker.word.words(25);
 function App() {
+  const {words, typed, timeLeft, errors, state, restart, totalTyped} = Functionality()
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <nav className="w-full flex items-center justify-between py-2 px-4 md:px-20 shadow-sm fixed bg-[#edf6f9] dark:bg-black">
@@ -22,18 +23,19 @@ function App() {
         <ModeToggle />
       </nav>
 
-      <div className="flex flex-col gap-6 justify-center font-mono tracking-wider px-4 md:px-36 pt-24">
-        <CountDown timeLeft={30} />
+      <div className="font-mono tracking-wider px-4 md:px-36 pt-[170px]">
+        <CountDown timeLeft={timeLeft} />
         <WordsCont>
-          <GeneratedWords words={words} />
-          <Typing Input={"test"} className="absolute inset-0" />
+          <GeneratedWords key={words} words={words} />
+          <Typing words={words} Input={typed} className="absolute inset-0" />
         </WordsCont>
-        <Restart onRestart={() => null} className="mx-auto mt-10" />
+        <Restart onRestart={restart} className="mx-auto mt-10" />
         <Result
-          errors={0}
-          accuracy={100}
-          total={200}
-          className="mx-auto mt-10"
+        state={state}
+          errors={errors}
+          accuracy={calculateAccuracyPercentage(errors, totalTyped)}
+          total={totalTyped}
+          className="mt-10"
         />
       </div>
     </ThemeProvider>
@@ -45,6 +47,12 @@ const WordsCont = ({children}: {children: React.ReactNode}) => {
     <div className="relative mt-3 text-3xl leading-relaxed break-all">
       {children}
     </div>
+  )
+}
+
+const CountDown = ({ timeLeft }: { timeLeft: number }) => {
+  return (
+    <h2 className="text-[#fbae39] font-bold">Time: {timeLeft}</h2>
   )
 }
 

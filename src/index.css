@@ -22,3 +22,34 @@ body {
   background-color: var(--background-color);
   /* color: var(--text-color); */
 }
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-yellow-700 {
+  color: #f59e0b; /* Tailwind CSS yellow-700 */
+}
+
+.w-1 {
+  width: 0.25rem; /* Tailwind CSS width 1 */
+}
+
+.h-7 {
+  height: 1.75rem; /* Tailwind CSS height 7 */
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
