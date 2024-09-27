@@ -1,26 +1,35 @@
+import { useEffect, useRef } from "react";
 import Caret from "./Caret";
 import cn from "classnames"
 
 const Typing = ({
   words,
   Input,
-  className = "",
+  className,
 }: {
-  Input: string;
   words: string;
+  Input: string;
   className?: string;
 }) => {
   const typedCharacters = Input.split("");
+  const inputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   return (
-    <div className={className}>
-      {typedCharacters.map((char, index) => (
-        <Character
-          key={`${char}_${index}`}
-          actual={char}
-          expected={words[index]}
-        />
-      ))}
+    <div
+      ref={inputRef}
+      tabIndex={0}
+      className={`relative ${className}`}
+      onClick={() => inputRef.current?.focus()}
+    >
+      {typedCharacters.map((char, index) => {
+        return <Character key={`${char}_${index}`} actual={char} expected={words[index]} />;
+      })}
       <Caret />
     </div>
   );

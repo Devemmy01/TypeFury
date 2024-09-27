@@ -18,6 +18,9 @@ const Functionality = () => {
     state !== "finish"
   );
   const [errors, setErrors] = useState(0);
+  const [highestResult, setHighestResult] = useState<number>(() => {
+    return parseInt(localStorage.getItem("highestResult") || "0", 10);
+  });
 
   const isStarting = state === "start" && cursor > 0;
   const areWordsFinished = cursor === words.length;
@@ -50,8 +53,13 @@ const Functionality = () => {
       debug("time is up...");
       setState("finish");
       sumErrors();
+      const result = totalTyped - errors;
+      if (result > highestResult) {
+        setHighestResult(result);
+        localStorage.setItem("highestResult", result.toString());
+      }
     }
-  }, [timeLeft, state, sumErrors]);
+  }, [timeLeft, state, sumErrors, errors, highestResult, totalTyped]);
 
   useEffect(() => {
     if (areWordsFinished) {
@@ -62,7 +70,7 @@ const Functionality = () => {
     }
   }, [clearTyped, areWordsFinished, updateWords, sumErrors]);
 
-  return { state, words, typed, errors, restart, timeLeft, totalTyped };
+  return { state, words, typed, errors, restart, timeLeft, totalTyped, highestResult };
 };
 
 export default Functionality;
