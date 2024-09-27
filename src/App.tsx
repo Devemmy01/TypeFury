@@ -29,7 +29,7 @@ function App() {
           <GeneratedWords key={words} words={words} />
           <Typing words={words} Input={typed} className="absolute inset-0" />
         </WordsCont>
-        <Restart onRestart={restart} className="mx-auto mt-10" />
+        <Restart onRestart={restart} className="mx-auto mt-10 mb-10" />
         <Result
         state={state}
           errors={errors}

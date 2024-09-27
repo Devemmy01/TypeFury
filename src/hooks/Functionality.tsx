@@ -11,12 +11,9 @@ const COUNTDOWN_SEC = 30;
 
 const Functionality = () => {
   const [state, setState] = useState<State>("start");
-  const { timeLeft, startCountdown, resetCountdown } =
-    useCountDown(COUNTDOWN_SEC); 
+  const { timeLeft, startCountdown, resetCountdown } = useCountDown(COUNTDOWN_SEC);
   const { words, updateWords } = useWords(NO_OF_WORDS);
-  const { cursor, typed, clearTyped, totalTyped, resetTotalTyped } = useTyping(
-    state !== "finish"
-  );
+  const { cursor, typed, clearTyped, totalTyped, resetTotalTyped } = useTyping(state !== "finish");
   const [errors, setErrors] = useState(0);
   const [highestResult, setHighestResult] = useState<number>(() => {
     return parseInt(localStorage.getItem("highestResult") || "0", 10);
@@ -53,13 +50,18 @@ const Functionality = () => {
       debug("time is up...");
       setState("finish");
       sumErrors();
+    }
+  }, [timeLeft, state, sumErrors]);
+
+  useEffect(() => {
+    if (state === "finish") {
       const result = totalTyped - errors;
       if (result > highestResult) {
         setHighestResult(result);
         localStorage.setItem("highestResult", result.toString());
       }
     }
-  }, [timeLeft, state, sumErrors, errors, highestResult, totalTyped]);
+  }, [state, totalTyped, errors, highestResult]);
 
   useEffect(() => {
     if (areWordsFinished) {
