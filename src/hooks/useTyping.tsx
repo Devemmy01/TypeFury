@@ -1,32 +1,37 @@
-import { useCallback, useEffect, useState, useRef } from "react";
-import { isKeyboardCodeAllowed } from "@/utils/helper";
+import { useCallback, useState, useRef } from "react";
+// import { isKeyboardCodeAllowed } from "@/utils/helper";
 
 const useTyping = (enabled: boolean) => {
   const [cursor, setCursor] = useState(0);
   const [typed, setTyped] = useState<string>("");
   const totalTyped = useRef(0);
 
-  const KeydownHandler = useCallback(
-    ({ key, code }: KeyboardEvent) => {
-      if (!enabled || !isKeyboardCodeAllowed(code)) {
-        return;
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!enabled) return;
+      if (event.key === "Backspace") {
+        setTyped((prev) => prev.slice(0, -1));
+        setCursor((cursor) => cursor - 1);
+        totalTyped.current -= 1;
+        event.preventDefault();
       }
-      switch (key) {
-        case "Backspace":
-          setTyped((prev) => prev.slice(0, -1));
-          setCursor((cursor) => cursor - 1);
-          totalTyped.current -= 1;
-          break;
-        case " ":
-          setTyped((prev) => prev + " ");
-          setCursor((cursor) => cursor + 1);
-          totalTyped.current += 1;
-          break;
-        default:
-          setTyped((prev) => prev + key);
-          setCursor((cursor) => cursor + 1);
-          totalTyped.current += 1;
+    },
+    [enabled]
+  );
+
+  const handleInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (!enabled) return;
+      const { value } = event.target;
+      const lastChar = value.slice(-1);
+
+      if (lastChar !== "") {
+        setTyped((prev) => prev + lastChar);
+        setCursor((cursor) => cursor + 1);
+        totalTyped.current += 1;
       }
+
+      event.target.value = ""; // Clear the input value
     },
     [enabled]
   );
@@ -40,20 +45,14 @@ const useTyping = (enabled: boolean) => {
     totalTyped.current = 0;
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("keydown", KeydownHandler);
-
-    return () => {
-      window.removeEventListener("keydown", KeydownHandler);
-    };
-  }, [KeydownHandler]);
-
   return {
     typed,
     cursor,
     clearTyped,
     resetTotalTyped,
     totalTyped: totalTyped.current,
+    handleInput,
+    handleKeyDown,
   };
 };
 

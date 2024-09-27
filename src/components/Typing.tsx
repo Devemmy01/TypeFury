@@ -6,10 +6,14 @@ const Typing = ({
   words,
   Input,
   className,
+  handleInput,
+  handleKeyDown,
 }: {
   words: string;
   Input: string;
   className?: string;
+  handleInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }) => {
   const typedCharacters = Input.split("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,6 +35,8 @@ const Typing = ({
         type="text"
         className="absolute opacity-0 w-0 h-0"
         onBlur={() => inputRef.current?.focus()}
+        onChange={handleInput}
+        onKeyDown={handleKeyDown}
       />
     </div>
   );

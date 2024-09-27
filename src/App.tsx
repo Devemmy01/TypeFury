@@ -9,7 +9,7 @@ import Functionality from "./hooks/Functionality";
 import { calculateAccuracyPercentage } from "./utils/helper";
 
 function App() {
-  const {words, typed, timeLeft, errors, state, restart, totalTyped, highestResult} = Functionality()
+  const { words, typed, timeLeft, errors, state, restart, totalTyped, highestResult, handleInput, handleKeyDown } = Functionality();
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -27,11 +27,11 @@ function App() {
         <CountDown timeLeft={timeLeft} />
         <WordsCont>
           <GeneratedWords key={words} words={words} />
-          <Typing words={words} Input={typed} className="absolute inset-0" />
+          <Typing words={words} Input={typed} className="absolute inset-0" handleInput={handleInput} handleKeyDown={handleKeyDown} />
         </WordsCont>
         <Restart onRestart={restart} className="mx-auto mt-10 mb-10" />
         <Result
-        state={state}
+          state={state}
           errors={errors}
           accuracy={calculateAccuracyPercentage(errors, totalTyped)}
           total={totalTyped}
@@ -43,24 +43,24 @@ function App() {
   );
 }
 
-const WordsCont = ({children}: {children: React.ReactNode}) => {
+const WordsCont = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative mt-3 text-3xl leading-relaxed break-all">
       {children}
     </div>
-  )
-}
+  );
+};
 
 const CountDown = ({ timeLeft }: { timeLeft: number }) => {
   return (
-    <h2 className="text-[#fbae39] font-bold mt-10">Time: {timeLeft}</h2>
-  )
-}
+    <h2 className="text-[#fbae39] font-bold">Time: {timeLeft}</h2>
+  );
+};
 
 const HighestResult = ({ highestResult }: { highestResult: number }) => {
   return (
-    <h2 className="text-[#fbae39] font-bold absolute top-[9rem] -z-10 ">Highest Score: {highestResult}</h2>
-  )
-}
+    <h2 className="text-[#fbae39] font-bold absolute top-[8rem] -z-10 ">Highest Score: {highestResult}</h2>
+  );
+};
 
 export default App;
