@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import Caret from "./Caret";
-import cn from "classnames"
+import cn from "classnames";
 
 const Typing = ({
   words,
@@ -12,7 +12,7 @@ const Typing = ({
   className?: string;
 }) => {
   const typedCharacters = Input.split("");
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -21,16 +21,17 @@ const Typing = ({
   }, []);
 
   return (
-    <div
-      ref={inputRef}
-      tabIndex={0}
-      className={`relative ${className}`}
-      onClick={() => inputRef.current?.focus()}
-    >
+    <div className={`relative ${className}`} onClick={() => inputRef.current?.focus()}>
       {typedCharacters.map((char, index) => {
         return <Character key={`${char}_${index}`} actual={char} expected={words[index]} />;
       })}
       <Caret />
+      <input
+        ref={inputRef}
+        type="text"
+        className="absolute opacity-0 w-0 h-0"
+        onBlur={() => inputRef.current?.focus()}
+      />
     </div>
   );
 };
