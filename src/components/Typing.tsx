@@ -41,7 +41,7 @@ const Typing = ({
         ref={inputRef}
         type="text"
         className="absolute opacity-0 w-0 h-0"
-        inputMode="none"
+        inputMode="text"
         onBlur={() => inputRef.current?.focus()}
         onChange={handleInput}
         onKeyDown={handleKeyDown}
