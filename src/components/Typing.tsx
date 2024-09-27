@@ -38,14 +38,18 @@ const Typing = ({
       })}
       <Caret />
       <input
-        ref={inputRef}
-        type="text"
-        className="absolute opacity-0 w-0 h-0"
-        inputMode="text"
-        onBlur={() => inputRef.current?.focus()}
-        onChange={handleInput}
-        onKeyDown={handleKeyDown}
-      />
+  ref={inputRef}
+  type="text"
+  className="absolute opacity-0 w-0 h-0"
+  inputMode="text"
+  autoCapitalize="none" // Prevents automatic capitalization
+  autoComplete="off" // Disables autocomplete
+  autoCorrect="off" // Disables autocorrect
+  onBlur={() => inputRef.current?.focus()}
+  onChange={handleInput}
+  onKeyDown={handleKeyDown}
+/>
+
     </div>
   );
 };
