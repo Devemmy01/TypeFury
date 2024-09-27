@@ -1,50 +1,34 @@
-# React + TypeScript + Vite
+# TypeFury
+<img src="https://github.com/user-attachments/assets/f035b65e-ede1-4775-8716-b2d6573da96c" alt="Banner" style="width: 100%;"/>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TypeFury is a typing speed test application that helps users improve their typing speed and accuracy. The application provides a set of words for the user to type within a given time limit and calculates the user's typing speed and accuracy.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Typing speed test with a countdown timer
+- Real-time accuracy calculation
+- Highest score tracking
+- Mobile and desktop support
+- Dark mode support
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/TypeFury.git
+   cd TypeFury
 
-- Configure the top-level `parserOptions` property like this:
+2. Install dependencies:
+   ```bash
+   npm install
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. Start the development server:
+   ```bash
+   npm run dev
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+# Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Open the application in your browser
+- Start typing the displayed words within the given time limit.
+- The application will calculate your typing speed and accuracy in real-time.
+- Your highest score will be saved locally.
