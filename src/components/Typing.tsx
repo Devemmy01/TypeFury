@@ -24,6 +24,13 @@ const Typing = ({
     }
   }, []);
 
+  useEffect(() => {
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.matchMedia("(max-width: 767px)").matches;
+    if (isMobile) {
+      alert("For a better experience, please switch to desktop view.");
+    }
+  }, []);
+
   return (
     <div className={`relative ${className}`} onClick={() => inputRef.current?.focus()}>
       {typedCharacters.map((char, index) => {
@@ -34,6 +41,7 @@ const Typing = ({
         ref={inputRef}
         type="text"
         className="absolute opacity-0 w-0 h-0"
+        inputMode="none"
         onBlur={() => inputRef.current?.focus()}
         onChange={handleInput}
         onKeyDown={handleKeyDown}
