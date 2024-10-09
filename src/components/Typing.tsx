@@ -32,7 +32,13 @@ const Typing = ({
   }, []);
 
   return (
-    <div className={`relative ${className}`} onClick={() => inputRef.current?.focus()}>
+    <div className={`relative ${className}`} onClick={() => inputRef.current?.focus()} role="button"
+    tabIndex={0}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        inputRef.current?.focus();
+      }
+    }}>
       {typedCharacters.map((char, index) => {
         return <Character key={`${char}_${index}`} actual={char} expected={words[index]} />;
       })}
