@@ -1,5 +1,4 @@
 import { useCallback, useState, useRef } from "react";
-// import { isKeyboardCodeAllowed } from "@/utils/helper";
 
 const useTyping = (enabled: boolean) => {
   const [cursor, setCursor] = useState(0);
