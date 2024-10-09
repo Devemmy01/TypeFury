@@ -39,7 +39,7 @@ const Typing = ({
       }
     }}>
       {typedCharacters.map((char, index) => {
-        return <Character key={`${char}_${index}`} actual={char} expected={words[index]} />;
+        return <Character key={char} actual={char} expected={words[index]} />;
       })}
       <Caret />
       <input
