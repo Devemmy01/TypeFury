@@ -10,17 +10,14 @@
 /* Example CSS */
 :root {
   --background-color: #edf6f9;
-  /* --text-color: black; */
 }
 
 .dark {
   --background-color: black;
-  /* --text-color: white; */
 }
 
 body {
   background-color: var(--background-color);
-  /* color: var(--text-color); */
 }
 
 .inline-block {
