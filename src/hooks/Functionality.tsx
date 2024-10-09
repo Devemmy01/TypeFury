@@ -16,8 +16,8 @@ const Functionality = () => {
   const { cursor, typed, clearTyped, totalTyped, resetTotalTyped, handleInput, handleKeyDown } = useTyping(state !== "finish");
   const [errors, setErrors] = useState(0);
   const [highestResult, setHighestResult] = useState<number>(() => {
-    return parseInt(localStorage.getItem("highestResult") || "0", 10);
-  });
+  return parseInt(localStorage.getItem("highestResult") ?? "0", 10);
+});
 
   const isStarting = state === "start" && cursor > 0;
   const areWordsFinished = cursor === words.length;
