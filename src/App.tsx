@@ -1,65 +1,141 @@
-import { ThemeProvider } from "./components/theme-provider";
-import logo from "./assets/logo.png";
-import { ModeToggle } from "./components/mode-toggle";
-import GeneratedWords from "./components/GeneratedWords";
-import Restart from "./components/Restart";
-import Result from "./components/Result";
-import Typing from "./components/Typing";
-import Functionality from "./hooks/Functionality";
-import { calculateAccuracyPercentage } from "./utils/helper";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { MainLayout } from "./components/Layout/MainLayout";
+import { TypingTest } from "./components/TypingTest/TypingTest";
+import { TestControls } from "./components/TypingTest/TestControls";
+import { DailyChallenge } from "./components/DailyChallenge/DailyChallenge";
+import { StatsOverview } from "./components/Dashboard/StatsOverview";
+import { TestHistory } from "./components/Dashboard/TestHistory";
+import { AchievementGrid } from "./components/Achievements/AchievementGrid";
+import { TestDuration, TextContent } from "./types";
+import { useTextContent } from "./hooks/useTextContent";
 
-function App() {
-  const { words, typed, timeLeft, errors, state, restart, totalTyped, highestResult, handleInput, handleKeyDown } = Functionality();
+const PracticePage: React.FC = () => {
+  const [isTestActive, setIsTestActive] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState<TestDuration>(60);
+  const [selectedCategory, setSelectedCategory] = useState<string>("quotes");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<TextContent["difficulty"]>("medium");
+  const { content, isLoading, error, fetchContent } = useTextContent();
+
+  const handleStartTest = async () => {
+    if (!isTestActive) {
+      await fetchContent(selectedCategory, selectedDifficulty);
+      setIsTestActive(true);
+    }
+  };
+
+  const handleTestComplete = (result: {
+    wpm: number;
+    accuracy: number;
+    time: number;
+  }) => {
+    setIsTestActive(false);
+    // Here you would typically save the result to the user's statistics
+  };
+
+  const handleReset = () => {
+    setIsTestActive(false);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    if (isTestActive) {
+      setIsTestActive(false);
+    }
+  };
+
+  const handleDifficultyChange = (difficulty: TextContent["difficulty"]) => {
+    setSelectedDifficulty(difficulty);
+    if (isTestActive) {
+      setIsTestActive(false);
+    }
+  };
+
+  const handleDurationChange = (duration: TestDuration) => {
+    setSelectedDuration(duration);
+    if (isTestActive) {
+      setIsTestActive(false);
+    }
+  };
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <nav className="w-full flex items-center justify-between py-2 px-4 md:px-20 shadow-sm fixed bg-[#edf6f9] dark:bg-black z-20">
-        <img
-          src={logo}
-          className="w-[55px] h-[55px] md:h-[75px] md:w-[75px]"
-          alt=""
+    <div className="max-w-4xl mx-auto p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <TestControls
+          duration={selectedDuration}
+          onStart={handleStartTest}
+          onReset={handleReset}
+          isTestActive={isTestActive}
+          selectedCategory={selectedCategory}
+          selectedDifficulty={selectedDifficulty}
+          onCategoryChange={handleCategoryChange}
+          onDifficultyChange={handleDifficultyChange}
+          onDurationChange={handleDurationChange}
         />
 
-        <ModeToggle />
-      </nav>
-
-      <div className="font-mono tracking-wider px-4 md:px-36 pt-[170px]">
-        <CountDown timeLeft={timeLeft} />
-        <WordsCont>
-          <GeneratedWords key={words} words={words} />
-          <Typing words={words} Input={typed} className="absolute inset-0" handleInput={handleInput} handleKeyDown={handleKeyDown} />
-        </WordsCont>
-        <Restart onRestart={restart} className="mx-auto mt-10 mb-10" />
-        <Result
-          state={state}
-          errors={errors}
-          accuracy={calculateAccuracyPercentage(errors, totalTyped)}
-          total={totalTyped}
-          className="mt-10 mb-20"
-        />
-        <HighestResult highestResult={highestResult} />
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[200px]">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : error ? (
+          <div className="text-center p-8">
+            <h2 className="text-2xl font-bold text-red-500 mb-4">
+              Error Loading Content
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">{error}</p>
+            <button
+              onClick={() => fetchContent(selectedCategory, selectedDifficulty)}
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        ) : content && isTestActive ? (
+          <TypingTest
+            text={content}
+            duration={selectedDuration}
+            onComplete={handleTestComplete}
+            isTestActive={isTestActive}
+          />
+        ) : (
+          <div className="text-center py-8">
+            <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+              Ready to Practice?
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Select your preferences above and click Start to begin your typing
+              practice.
+            </p>
+          </div>
+        )}
       </div>
-    </ThemeProvider>
-  );
-}
-
-const WordsCont = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="relative mt-3 text-3xl leading-relaxed break-all">
-      {children}
     </div>
   );
 };
 
-const CountDown = ({ timeLeft }: { timeLeft: number }) => {
+const StatsPage: React.FC = () => {
   return (
-    <h2 className="text-[#fbae39] font-bold">Time: {timeLeft}</h2>
+    <div className="max-w-6xl mx-auto p-4 space-y-8">
+      <StatsOverview />
+      <TestHistory />
+    </div>
   );
 };
 
-const HighestResult = ({ highestResult }: { highestResult: number }) => {
+const App: React.FC = () => {
   return (
-    <h2 className="text-[#fbae39] font-bold absolute top-[8rem] -z-10 ">Highest Score: {highestResult}</h2>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<PracticePage />} />
+          <Route path="daily" element={<DailyChallenge />} />
+          <Route path="stats" element={<StatsPage />} />
+          <Route path="achievements" element={<AchievementGrid />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
