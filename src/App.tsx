@@ -200,7 +200,6 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Analytics />
-      <Analytics />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<PracticePage />} />
