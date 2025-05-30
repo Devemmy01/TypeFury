@@ -72,6 +72,7 @@ export class LoremAPI extends BaseAPI {
 
   async getText(
     sentences: number = 5,
+    difficulty: TextContent["difficulty"] = "medium",
     options: string = "medium/plaintext"
   ): Promise<TextContent> {
     const response = await this.fetchWithTimeout(
@@ -82,7 +83,7 @@ export class LoremAPI extends BaseAPI {
     return {
       id: crypto.randomUUID(),
       category: "practice",
-      difficulty: "medium",
+      difficulty,
       content: text.trim(),
       source: "Lorem Ipsum",
     };
@@ -118,9 +119,11 @@ export class WikiAPI extends BaseAPI {
 }
 
 export class WordsAPI extends BaseAPI {
-  async getRandomWords(count: number = 50): Promise<TextContent> {
+  async getRandomWords(
+    count: number = 50,
+    difficulty: TextContent["difficulty"] = "medium"
+  ): Promise<TextContent> {
     const words: string[] = [];
-
     for (let i = 0; i < count; i++) {
       const response = await this.fetchWithTimeout(
         "https://random-words-api.vercel.app/word"
@@ -128,11 +131,10 @@ export class WordsAPI extends BaseAPI {
       const data = await response.json();
       words.push(data[0].word);
     }
-
     return {
       id: crypto.randomUUID(),
       category: "words",
-      difficulty: "medium",
+      difficulty,
       content: words.join(" "),
       source: "Random Words API",
     };

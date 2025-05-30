@@ -51,9 +51,9 @@ export const TestControls: React.FC<TestControlsProps> = ({
   isTestActive,
 }) => {
   return (
-    <div className="hidden md:block w-full max-w-5xl mx-auto p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg space-y-8">
+    <div className="w-full p-8 space-y-8">
       {/* Section Headers */}
-      <div className="grid grid-cols-3 gap-8">
+      <div className="flex flex-col gap-8">
         {/* Duration Section */}
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-3">
@@ -69,7 +69,7 @@ export const TestControls: React.FC<TestControlsProps> = ({
                 onClick={() => onDurationChange(value)}
                 className={`px-5 py-2.5 rounded-lg transition-all transform hover:scale-105 text-base ${
                   duration === value
-                    ? "bg-primary text-white shadow-md"
+                    ? "bg-primary text-black shadow-md"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
                 disabled={isTestActive}
@@ -95,7 +95,7 @@ export const TestControls: React.FC<TestControlsProps> = ({
                 onClick={() => onCategoryChange(id)}
                 className={`px-5 py-2.5 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2 text-base ${
                   selectedCategory === id
-                    ? "bg-primary text-white shadow-md"
+                    ? "bg-primary text-black shadow-md"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
                 disabled={isTestActive}
@@ -124,7 +124,7 @@ export const TestControls: React.FC<TestControlsProps> = ({
                 onClick={() => onDifficultyChange(value)}
                 className={`px-5 py-2.5 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2 text-base ${
                   selectedDifficulty === value
-                    ? "bg-primary text-white shadow-md"
+                    ? "bg-primary text-black shadow-md"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
                 disabled={isTestActive}
@@ -145,8 +145,8 @@ export const TestControls: React.FC<TestControlsProps> = ({
           onClick={isTestActive ? onReset : onStart}
           className={`px-10 py-4 rounded-lg text-xl font-semibold transition-all transform hover:scale-105 ${
             isTestActive
-              ? "bg-red-500 text-white hover:bg-red-600 shadow-md"
-              : "bg-primary text-white hover:bg-primary/90 shadow-md"
+              ? "bg-red-500 dark:text-white text-black hover:bg-red-600 shadow-md"
+              : "bg-primary dark:text-white text-black hover:bg-primary/90 shadow-md"
           }`}
         >
           {isTestActive ? (
@@ -165,39 +165,6 @@ export const TestControls: React.FC<TestControlsProps> = ({
             </span>
           )}
         </button>
-      </div>
-
-      {/* Screen Size Warning */}
-      <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-6 text-center">
-        <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md border border-white/20">
-          <div className="text-4xl mb-6 animate-bounce">⚡</div>
-          <h2 className="text-3xl font-bold text-white mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Desktop Experience Required
-          </h2>
-          <div className="space-y-4 text-gray-300">
-            <p className="text-lg">
-              TypeFury is optimized for the full keyboard experience on larger
-              screens.
-            </p>
-            <div className="bg-white/5 p-4 rounded-xl space-y-3">
-              <p className="flex items-center gap-2">
-                <span className="text-xl">🎯</span>
-                Precision typing requires precision tools
-              </p>
-              <p className="flex items-center gap-2">
-                <span className="text-xl">⌨️</span>
-                Full keyboard experience
-              </p>
-              <p className="flex items-center gap-2">
-                <span className="text-xl">💻</span>
-                Desktop or iPad with keyboard
-              </p>
-            </div>
-            <p className="text-sm text-gray-400 italic">
-              "Your typing journey deserves the right tools"
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

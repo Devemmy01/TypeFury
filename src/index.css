@@ -1,39 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
-    --radius: 0.5rem
+    --radius: 0.5rem;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
   }
 }
 
-/* Example CSS */
-:root {
-  --background-color: #edf6f9;
-}
-
-.dark {
-  --background-color: black;
-}
-
 body {
-  background-color: var(--background-color);
+  @apply bg-gray-50 dark:bg-gray-900;
+  min-height: 100vh;
 }
 
+/* Utility Classes */
 .inline-block {
   display: inline-block;
 }
 
 .text-yellow-700 {
-  color: #f59e0b; /* Tailwind CSS yellow-700 */
+  color: #f59e0b;
 }
 
 .w-1 {
-  width: 0.25rem; /* Tailwind CSS width 1 */
+  width: 0.25rem;
 }
 
 .h-7 {
-  height: 1.75rem; /* Tailwind CSS height 7 */
+  height: 1.75rem;
 }
 
 .relative {

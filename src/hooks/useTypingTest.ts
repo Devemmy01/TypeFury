@@ -152,6 +152,12 @@ export const useTypingTest = (): UseTypingTestReturn => {
   const getCurrentResult = useCallback((): TestResult | null => {
     if (!state.isComplete || !state.currentText) return null;
 
+    const totalChars = state.currentText.content.length;
+    const completion =
+      totalChars === 0
+        ? 100
+        : Math.round((state.charactersTyped / totalChars) * 100);
+
     return {
       id: crypto.randomUUID(),
       date: new Date().toISOString(),
@@ -163,6 +169,7 @@ export const useTypingTest = (): UseTypingTestReturn => {
       mistakes: state.mistakes,
       charactersTyped: state.charactersTyped,
       charactersCorrect: state.charactersCorrect,
+      completion,
     };
   }, [state]);
 

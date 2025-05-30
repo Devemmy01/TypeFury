@@ -3,13 +3,22 @@ import { useTypingTest } from "../../hooks/useTypingTest";
 import { TestDuration, TextContent } from "../../types";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Add type for webkitAudioContext
+declare global {
+  interface Window {
+    webkitAudioContext: typeof AudioContext;
+  }
+}
+
 interface TypingTestProps {
   text: TextContent;
   duration: TestDuration;
   onComplete?: (result: {
     wpm: number;
     accuracy: number;
+    mistakes: number;
     time: number;
+    completion: number;
   }) => void;
   isTestActive: boolean;
 }
@@ -23,7 +32,7 @@ export const TypingTest: React.FC<TypingTestProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isWarning, setIsWarning] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
   const {
     isActive,
@@ -37,13 +46,22 @@ export const TypingTest: React.FC<TypingTestProps> = ({
     resetTest,
   } = useTypingTest();
 
-  // Initialize audio for warning beep
+  // Create audio context only when needed
+  const createAudioContext = useCallback(() => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext ||
+        window.webkitAudioContext)();
+    }
+    return audioContextRef.current;
+  }, []);
+
+  // Initialize audio context
   useEffect(() => {
-    audioRef.current = new Audio("/beep.mp3"); // Make sure to add this audio file to your public folder
+    // Cleanup function
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
       }
     };
   }, []);
@@ -54,12 +72,15 @@ export const TypingTest: React.FC<TypingTestProps> = ({
       startTest(text, duration);
       setTimeLeft(duration);
       setIsWarning(false);
-      // Focus input on mount
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
     }
   }, [text, duration, startTest, isTestActive]);
+
+  // Focus input when test becomes active
+  useEffect(() => {
+    if (isActive && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isActive]);
 
   // Handle timer countdown
   useEffect(() => {
@@ -70,10 +91,26 @@ export const TypingTest: React.FC<TypingTestProps> = ({
           const newTime = Math.max(0, prev - 1) as TestDuration;
           if (newTime <= 5) {
             setIsWarning(true);
-            if (audioRef.current) {
-              audioRef.current.play().catch(() => {
-                // Ignore autoplay errors
-              });
+            // Play beep sound when time is running low
+            try {
+              const audioContext = createAudioContext();
+              const oscillator = audioContext.createOscillator();
+              const gainNode = audioContext.createGain();
+
+              oscillator.connect(gainNode);
+              gainNode.connect(audioContext.destination);
+
+              oscillator.type = "sine";
+              oscillator.frequency.setValueAtTime(
+                800,
+                audioContext.currentTime
+              );
+              gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+              oscillator.start();
+              oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (error) {
+              console.warn("Could not play beep sound:", error);
             }
           }
           return newTime;
@@ -86,9 +123,26 @@ export const TypingTest: React.FC<TypingTestProps> = ({
   // Handle test completion
   useEffect(() => {
     if (isComplete && onComplete) {
-      onComplete({ wpm, accuracy, time: duration - timeLeft });
+      const totalChars = text.content.length;
+      const completion = Math.round((userInput.length / totalChars) * 100);
+      const correctChars = userInput.length - mistakes;
+      const strictAccuracy =
+        totalChars === 0
+          ? 100
+          : Math.round(
+              (Math.max(0, Math.min(userInput.length, correctChars)) /
+                totalChars) *
+                100
+            );
+      onComplete({
+        wpm,
+        accuracy: strictAccuracy,
+        mistakes,
+        time: duration - timeLeft,
+        completion,
+      });
     }
-  }, [isComplete, onComplete, wpm, accuracy, duration, timeLeft]);
+  }, [isComplete, onComplete, wpm, mistakes, duration, timeLeft]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -136,7 +190,7 @@ export const TypingTest: React.FC<TypingTestProps> = ({
   };
 
   return (
-    <div className="hidden md:block w-full max-w-5xl mx-auto p-6 space-y-8">
+    <div className="w-full max-w-5xl mx-auto p-6 space-y-8">
       {/* Stats Display */}
       <div className="grid grid-cols-4 gap-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
         <div className="text-center">
@@ -225,39 +279,6 @@ export const TypingTest: React.FC<TypingTestProps> = ({
           <span className="px-4 py-2 bg-secondary/10 text-secondary rounded-full text-base">
             {text.difficulty}
           </span>
-        </div>
-      </div>
-
-      {/* Screen Size Warning */}
-      <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-6 text-center">
-        <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md border border-white/20">
-          <div className="text-4xl mb-6 animate-bounce">⌨️</div>
-          <h2 className="text-3xl font-bold text-white mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            TypeFury Desktop Only
-          </h2>
-          <div className="space-y-4 text-gray-300">
-            <p className="text-lg">
-              TypeFury is a precision typing experience designed for the full
-              keyboard experience.
-            </p>
-            <div className="bg-white/5 p-4 rounded-xl space-y-3">
-              <p className="flex items-center gap-2">
-                <span className="text-xl">💻</span>
-                Desktop or laptop recommended
-              </p>
-              <p className="flex items-center gap-2">
-                <span className="text-xl">⌨️</span>
-                External keyboard required
-              </p>
-              <p className="flex items-center gap-2">
-                <span className="text-xl">📱</span>
-                iPad with keyboard works too!
-              </p>
-            </div>
-            <p className="text-sm text-gray-400 italic">
-              "The best typing experience deserves the best setup"
-            </p>
-          </div>
         </div>
       </div>
     </div>

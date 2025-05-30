@@ -11,6 +11,7 @@ export interface UserStats {
     averageWpm: number;
     averageAccuracy: number;
     totalTime: number;
+    averageCompletion?: number;
   };
   streaks: {
     current: number;
@@ -36,13 +37,14 @@ export interface TestResult {
   mistakes: number;
   charactersTyped: number;
   charactersCorrect: number;
+  completion?: number;
 }
 
 export interface Achievement {
   id: string;
   title: string;
   description: string;
-  type: "speed" | "accuracy" | "streak" | "volume" | "explorer";
+  type: "speed" | "accuracy" | "streak" | "volume" | "explorer" | "completion";
   unlockedAt: string | null;
   progress: number;
   target: number;
@@ -51,19 +53,18 @@ export interface Achievement {
 
 export interface TextContent {
   id: string;
-  category: "quotes" | "programming" | "literature" | "news";
+  category:
+    | "quotes"
+    | "programming"
+    | "literature"
+    | "news"
+    | "practice"
+    | "educational"
+    | "words";
   difficulty: "easy" | "medium" | "hard";
   content: string;
   author?: string;
   source?: string;
-}
-
-export interface DailyChallenge {
-  id: string;
-  date: string;
-  text: TextContent;
-  specialTheme?: string;
-  bonusPoints?: number;
 }
 
 export type TestDuration = 15 | 30 | 60 | 120 | 300;

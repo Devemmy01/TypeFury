@@ -4,7 +4,11 @@ import { storage } from "../../utils/storage";
 
 export const StatsOverview: React.FC = () => {
   const stats = storage.getUserStats();
-  const { personalBests, overallStats, streaks } = stats;
+  const { personalBests, overallStats, streaks, testHistory } = stats;
+  const bestCompletion =
+    testHistory.length > 0
+      ? Math.max(...testHistory.map((t) => t.completion || 0))
+      : 0;
 
   const formatNumber = (num: number) => {
     return num.toLocaleString(undefined, {
@@ -38,6 +42,42 @@ export const StatsOverview: React.FC = () => {
             </div>
           </motion.div>
         ))}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 text-center"
+        >
+          <div className="text-2xl font-bold text-green-500">
+            {formatNumber(overallStats.averageAccuracy)}%
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Avg Accuracy
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 text-center"
+        >
+          <div className="text-2xl font-bold text-blue-500">
+            {formatNumber(overallStats.averageCompletion || 0)}%
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Avg Completion
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 text-center"
+        >
+          <div className="text-2xl font-bold text-purple-500">
+            {formatNumber(bestCompletion)}%
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Best Completion
+          </div>
+        </motion.div>
       </div>
 
       {/* Overall Stats */}

@@ -47,58 +47,157 @@ export class ContentManager {
     category: string,
     difficulty: TextContent["difficulty"]
   ): TextContent {
-    const fallbacks: Record<string, TextContent[]> = {
-      quotes: [
-        {
-          id: crypto.randomUUID(),
-          category: "quotes",
-          difficulty,
-          content:
-            "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
-          author: "Steve Jobs",
-          source: "Fallback Content",
-        },
-        {
-          id: crypto.randomUUID(),
-          category: "quotes",
-          difficulty,
-          content:
-            "Innovation distinguishes between a leader and a follower. Stay hungry, stay foolish, and never stop learning.",
-          author: "Steve Jobs",
-          source: "Fallback Content",
-        },
-      ],
-      programming: [
-        {
-          id: crypto.randomUUID(),
-          category: "programming",
-          difficulty,
-          content:
-            "function calculateWPM(characters, minutes) { return Math.round(characters / 5 / minutes); }",
-          source: "Fallback Content",
-        },
-        {
-          id: crypto.randomUUID(),
-          category: "programming",
-          difficulty,
-          content:
-            "const users = await fetch('/api/users').then(response => response.json()).catch(error => console.error(error));",
-          source: "Fallback Content",
-        },
-      ],
-      practice: [
-        {
-          id: crypto.randomUUID(),
-          category: "practice",
-          difficulty,
-          content:
-            "The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet and is perfect for typing practice.",
-          source: "Fallback Content",
-        },
-      ],
+    // Only use categories defined in TextContent["category"]
+    const fallbackByDifficulty: Record<
+      TextContent["difficulty"],
+      Record<"quotes" | "programming" | "literature" | "news", TextContent[]>
+    > = {
+      easy: {
+        quotes: [
+          {
+            id: crypto.randomUUID(),
+            category: "quotes",
+            difficulty: "easy",
+            content: "Stay hungry, stay foolish.",
+            author: "Steve Jobs",
+            source: "Fallback Content",
+          },
+          {
+            id: crypto.randomUUID(),
+            category: "quotes",
+            difficulty: "easy",
+            content: "Simplicity is the ultimate sophistication.",
+            author: "Leonardo da Vinci",
+            source: "Fallback Content",
+          },
+        ],
+        programming: [
+          {
+            id: crypto.randomUUID(),
+            category: "programming",
+            difficulty: "easy",
+            content: "let x = 5; // A simple variable",
+            source: "Fallback Content",
+          },
+        ],
+        literature: [
+          {
+            id: crypto.randomUUID(),
+            category: "literature",
+            difficulty: "easy",
+            content: "Call me Ishmael.",
+            author: "Herman Melville",
+            source: "Fallback Content",
+          },
+        ],
+        news: [
+          {
+            id: crypto.randomUUID(),
+            category: "news",
+            difficulty: "easy",
+            content: "Breaking news: The sun rises in the east.",
+            source: "Fallback Content",
+          },
+        ],
+      },
+      medium: {
+        quotes: [
+          {
+            id: crypto.randomUUID(),
+            category: "quotes",
+            difficulty: "medium",
+            content:
+              "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
+            author: "Steve Jobs",
+            source: "Fallback Content",
+          },
+        ],
+        programming: [
+          {
+            id: crypto.randomUUID(),
+            category: "programming",
+            difficulty: "medium",
+            content:
+              "function calculateWPM(characters, minutes) { return Math.round(characters / 5 / minutes); }",
+            source: "Fallback Content",
+          },
+        ],
+        literature: [
+          {
+            id: crypto.randomUUID(),
+            category: "literature",
+            difficulty: "medium",
+            content:
+              "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness...",
+            author: "Charles Dickens",
+            source: "Fallback Content",
+          },
+        ],
+        news: [
+          {
+            id: crypto.randomUUID(),
+            category: "news",
+            difficulty: "medium",
+            content:
+              "In today's headlines, scientists have discovered a new species of bird in the Amazon rainforest, highlighting the region's rich biodiversity.",
+            source: "Fallback Content",
+          },
+        ],
+      },
+      hard: {
+        quotes: [
+          {
+            id: crypto.randomUUID(),
+            category: "quotes",
+            difficulty: "hard",
+            content:
+              "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful. The journey of a thousand miles begins with one step. Perseverance is not a long race; it is many short races one after the other.",
+            author: "Albert Schweitzer & Lao Tzu",
+            source: "Fallback Content",
+          },
+        ],
+        programming: [
+          {
+            id: crypto.randomUUID(),
+            category: "programming",
+            difficulty: "hard",
+            content:
+              "function debounce(fn, delay) { let timer; return function(...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); }; } // Debounce implementation for performance.",
+            source: "Fallback Content",
+          },
+        ],
+        literature: [
+          {
+            id: crypto.randomUUID(),
+            category: "literature",
+            difficulty: "hard",
+            content:
+              "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood...",
+            author: "Jane Austen",
+            source: "Fallback Content",
+          },
+        ],
+        news: [
+          {
+            id: crypto.randomUUID(),
+            category: "news",
+            difficulty: "hard",
+            content:
+              "In a groundbreaking development, international researchers have unveiled a new technology that promises to revolutionize renewable energy production, potentially reducing global carbon emissions by 40% over the next decade.",
+            source: "Fallback Content",
+          },
+        ],
+      },
     };
-
-    const categoryFallbacks = fallbacks[category] || fallbacks.quotes;
+    // Map unsupported categories to 'quotes' as fallback
+    const validCategories = ["quotes", "programming", "literature", "news"];
+    const difficultyKey = (
+      difficulty in fallbackByDifficulty ? difficulty : "medium"
+    ) as TextContent["difficulty"];
+    const categoryKey = (
+      validCategories.includes(category) ? category : "quotes"
+    ) as keyof (typeof fallbackByDifficulty)["easy"];
+    const categoryFallbacks = fallbackByDifficulty[difficultyKey][categoryKey];
     return categoryFallbacks[
       Math.floor(Math.random() * categoryFallbacks.length)
     ];
@@ -121,7 +220,8 @@ export class ContentManager {
           break;
         case "practice":
           content = await this.apis.lorem.getText(
-            this.getSentenceCount(difficulty)
+            this.getSentenceCount(difficulty),
+            difficulty
           );
           break;
         case "educational":
@@ -129,7 +229,8 @@ export class ContentManager {
           break;
         case "words":
           content = await this.apis.words.getRandomWords(
-            this.getWordCount(difficulty)
+            this.getWordCount(difficulty),
+            difficulty
           );
           break;
         case "programming":
@@ -155,19 +256,6 @@ export class ContentManager {
   private getWordCount(difficulty: TextContent["difficulty"]): number {
     const counts = { easy: 20, medium: 50, hard: 100 };
     return counts[difficulty] || 50;
-  }
-
-  async getDailyContent(
-    date: string = new Date().toISOString().split("T")[0]
-  ): Promise<TextContent> {
-    const categories = ["quotes", "educational", "programming"];
-    const dayOfYear = Math.floor(
-      (new Date(date).getTime() -
-        new Date(new Date(date).getFullYear(), 0, 0).getTime()) /
-        (1000 * 60 * 60 * 24)
-    );
-    const category = categories[dayOfYear % categories.length];
-    return this.getContent(category, "medium");
   }
 
   clearCache(): void {

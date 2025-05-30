@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, } from "lucide-react";
+import logo from "../../assets/logo.png"
 import { storage } from "../../utils/storage";
 
 interface HeaderProps {
@@ -18,7 +19,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navItems = [
     { path: "/", label: "Practice" },
-    { path: "/daily", label: "Daily Challenge" },
     { path: "/stats", label: "Statistics" },
     { path: "/achievements", label: "Achievements" },
   ];
@@ -29,8 +29,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex justify-between items-center h-16">
           {/* Logo and Navigation */}
           <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-blue-500">TypeFury</span>
+            <Link to="/" className="flex items-center space-x-1">
+                          {/* <Keyboard className="w-6 h-6 text-primary dark:text-secondary" /> */}
+                          <img src={logo} className="w-12 h-12" alt="" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                TypeFury
+              </span>
             </Link>
 
             <nav className="hidden md:flex space-x-4">

@@ -33,23 +33,6 @@ export const useTextContent = () => {
     []
   );
 
-  const fetchDailyContent = useCallback(async (date?: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const dailyContent = await contentManager.getDailyContent(date);
-      setContent(dailyContent);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch daily content"
-      );
-      console.error("Error fetching daily content:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   const clearContent = useCallback(() => {
     setContent(null);
     setError(null);
@@ -67,7 +50,6 @@ export const useTextContent = () => {
     isLoading,
     error,
     fetchContent,
-    fetchDailyContent,
     clearContent,
   };
 };

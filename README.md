@@ -1,34 +1,58 @@
-# TypeFury
-<img src="https://github.com/user-attachments/assets/f035b65e-ede1-4775-8716-b2d6573da96c" alt="Banner" style="width: 100%;"/>
+# TypeFury 🎯
 
-TypeFury is a typing speed test application that helps users improve their typing speed and accuracy. The application provides a set of words for the user to type within a given time limit and calculates the user's typing speed and accuracy.
+Welcome to **TypeFury** – a fun, modern typing speed test app! Challenge yourself, unlock achievements, and see how fast (and accurate) your fingers really are.
 
-## Features
+---
 
-- Typing speed test with a countdown timer
-- Real-time accuracy calculation
-- Highest score tracking
-- Mobile and desktop support
-- Dark mode support
+## ✨ What's Inside?
 
-## Installation
+- **Typing Test:** Type real quotes, code, Wikipedia facts, random words, or lorem ipsum. Pick your category and difficulty!
+- **Live Stats:** See your WPM, accuracy, and mistakes update in real time.
+- **Achievements:** Hit milestones and collect badges as you improve.
+- **History:** Track your progress and see how you're leveling up.
+- **Dark Mode:** Easy on the eyes, day or night.
+- **Mobile Friendly:** Looks great everywhere, but best on desktop for full keyboard action.
+- **Share:** Brag about your score on Twitter or copy a link to share with friends.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/TypeFury.git
-   cd TypeFury
+---
 
-2. Install dependencies:
-   ```bash
-   npm install
+## 🧠 How Does It Work?
 
-3. Start the development server:
-   ```bash
-   npm run dev
+- **Fresh Content:** Pulls from 5 different APIs (quotes, code, Wikipedia, random words, and lorem ipsum) so you never get bored.
+- **Fallbacks:** If the internet's acting up, you'll still get something fun to type.
+- **All About You:** Stats and achievements are saved locally—your data, your business.
 
-# Usage
+---
 
-- Open the application in your browser
-- Start typing the displayed words within the given time limit.
-- The application will calculate your typing speed and accuracy in real-time.
-- Your highest score will be saved locally.
+## 🚀 Get Started
+
+```bash
+git clone https://github.com/yourusername/TypeFury.git
+cd TypeFury
+npm install
+npm run dev
+```
+
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 🏗️ Tech Stack
+
+- **React 18 + Vite** (super fast!)
+- **Tailwind CSS** (for those sweet styles)
+- **TypeScript** (so things don't break)
+- **Custom Hooks & Components** (for clean, reusable code)
+
+---
+
+## 💬 Why You'll Love It
+
+- Always new stuff to type
+- Fun achievements and stats
+- Super smooth and modern UI
+- Easy to use, easy to share
+
+---
+
+Made with ❤️ by [Your Name]

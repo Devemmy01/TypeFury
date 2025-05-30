@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { storage } from "../../utils/storage";
-import { TestResult } from "../../types";
+// import { TestResult } from "../../types";
 
 type SortField = "date" | "wpm" | "accuracy" | "duration";
 type SortOrder = "asc" | "desc";
@@ -89,7 +89,7 @@ export const TestHistory: React.FC = () => {
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg"
+          className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg dark:text-white"
         >
           <option value="all">All Categories</option>
           {categories.map((category) => (
@@ -102,7 +102,7 @@ export const TestHistory: React.FC = () => {
         <select
           value={filterDifficulty}
           onChange={(e) => setFilterDifficulty(e.target.value)}
-          className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg"
+          className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg dark:text-white"
         >
           <option value="all">All Difficulties</option>
           {difficulties.map((difficulty) => (
@@ -117,7 +117,7 @@ export const TestHistory: React.FC = () => {
       <div className="overflow-x-auto">
         <table className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <thead>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
+            <tr className="border-b border-gray-200 dark:border-gray-700 dark:text-gray-100">
               <th
                 className="px-4 py-3 text-left cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
                 onClick={() => handleSort("date")}

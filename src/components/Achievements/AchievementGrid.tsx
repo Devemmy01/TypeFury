@@ -21,6 +21,7 @@ export const AchievementGrid: React.FC = () => {
     { type: "streak", title: "Streak Achievements", icon: "🔥" },
     { type: "volume", title: "Volume Badges", icon: "📝" },
     { type: "explorer", title: "Explorer Badges", icon: "🗺️" },
+    { type: "completion", title: "Completion Mastery", icon: "🏁" },
   ];
 
   return (

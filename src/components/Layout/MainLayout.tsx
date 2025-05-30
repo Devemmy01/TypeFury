@@ -13,7 +13,6 @@ export const MainLayout: React.FC = () => {
   });
 
   useEffect(() => {
-    // Update theme in localStorage and document
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
     document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
@@ -23,16 +22,22 @@ export const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
-      <Header onThemeToggle={handleThemeToggle} isDarkMode={isDarkMode} />
+    <div className="min-h-screen">
+      {/* Mobile Layout - No header/footer, just the content */}
+      <div className="md:hidden">
+        <Outlet />
+      </div>
 
-      <main className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Outlet />
-        </div>
-      </main>
-
-      <Footer />
+      {/* Desktop Layout */}
+      <div className="hidden md:flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
+        <Header onThemeToggle={handleThemeToggle} isDarkMode={isDarkMode} />
+        <main className="flex-grow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Outlet />
+          </div>
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Achievement, UserStats } from "../types";
 import { storage } from "../utils/storage";
 
@@ -162,9 +162,48 @@ const ACHIEVEMENTS: Achievement[] = [
     target: 4, // quotes, programming, literature, news
     icon: "🗺️",
   },
+
+  // Completion achievements
+  {
+    id: "completion_90",
+    title: "Almost There!",
+    description: "Achieve 90%+ completion in a test",
+    type: "completion",
+    unlockedAt: null,
+    progress: 0,
+    target: 90,
+    icon: "🏁",
+  },
+  {
+    id: "completion_100",
+    title: "Full Fury!",
+    description: "Achieve 100% completion in a test",
+    type: "completion",
+    unlockedAt: null,
+    progress: 0,
+    target: 100,
+    icon: "🔥",
+  },
+  {
+    id: "perfect_run",
+    title: "Perfect Run",
+    description: "100% completion and 100% accuracy in a test",
+    type: "completion",
+    unlockedAt: null,
+    progress: 0,
+    target: 1,
+    icon: "💯",
+  },
 ];
 
 export const useAchievements = () => {
+  const [achievements, setAchievements] = useState<Achievement[]>(() => {
+    const stats = storage.getUserStats();
+    return stats.achievements && stats.achievements.length > 0
+      ? stats.achievements
+      : ACHIEVEMENTS;
+  });
+
   const checkAchievements = useCallback((stats: UserStats) => {
     const updatedAchievements = [...ACHIEVEMENTS];
     let hasUpdates = false;
@@ -241,21 +280,53 @@ export const useAchievements = () => {
       }
     });
 
+    // Check completion achievements
+    const bestCompletion = stats.testHistory.reduce(
+      (max, test) => Math.max(max, test.completion || 0),
+      0
+    );
+    updatedAchievements.forEach((achievement) => {
+      if (achievement.type === "completion" && !achievement.unlockedAt) {
+        if (achievement.id === "perfect_run") {
+          // Check for any test with 100% completion and 100% accuracy
+          const hasPerfect = stats.testHistory.some(
+            (test) => (test.completion || 0) === 100 && test.accuracy === 100
+          );
+          achievement.progress = hasPerfect ? 1 : 0;
+          if (hasPerfect) {
+            achievement.unlockedAt = new Date().toISOString();
+            hasUpdates = true;
+          }
+        } else {
+          achievement.progress = bestCompletion;
+          if (bestCompletion >= achievement.target) {
+            achievement.unlockedAt = new Date().toISOString();
+            hasUpdates = true;
+          }
+        }
+      }
+    });
+
     if (hasUpdates) {
       storage.updateAchievements(updatedAchievements);
+      setAchievements(updatedAchievements);
+    } else {
+      setAchievements(
+        stats.achievements && stats.achievements.length > 0
+          ? stats.achievements
+          : updatedAchievements
+      );
     }
-
     return updatedAchievements;
   }, []);
 
-  // Check achievements whenever stats change
   useEffect(() => {
     const stats = storage.getUserStats();
     checkAchievements(stats);
   }, [checkAchievements]);
 
   return {
-    achievements: ACHIEVEMENTS,
+    achievements,
     checkAchievements,
   };
 };

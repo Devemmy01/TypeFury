@@ -20,6 +20,7 @@ const DEFAULT_USER_STATS: UserStats = {
     averageWpm: 0,
     averageAccuracy: 0,
     totalTime: 0,
+    averageCompletion: 0,
   },
   streaks: {
     current: 0,
@@ -80,6 +81,13 @@ export const storage = {
         (stats.overallStats.averageAccuracy *
           (stats.overallStats.totalTests - 1) +
           result.accuracy) /
+        stats.overallStats.totalTests;
+      if (!stats.overallStats.averageCompletion)
+        stats.overallStats.averageCompletion = 0;
+      stats.overallStats.averageCompletion =
+        (stats.overallStats.averageCompletion *
+          (stats.overallStats.totalTests - 1) +
+          (result.completion || 0)) /
         stats.overallStats.totalTests;
 
       // Update streak
