@@ -1,6 +1,6 @@
-# TypeFury 🎯
+# typingfury 🎯
 
-Welcome to **TypeFury** – a fun, modern typing speed test app! Challenge yourself, unlock achievements, and see how fast (and accurate) your fingers really are.
+Welcome to **typingfury** – a fun, modern typing speed test app! Challenge yourself, unlock achievements, and see how fast (and accurate) your fingers really are.
 
 ---
 
@@ -27,8 +27,8 @@ Welcome to **TypeFury** – a fun, modern typing speed test app! Challenge yours
 ## 🚀 Get Started
 
 ```bash
-git clone https://github.com/yourusername/TypeFury.git
-cd TypeFury
+git clone https://github.com/yourusername/typingfury.git
+cd typingfury
 npm install
 npm run dev
 ```

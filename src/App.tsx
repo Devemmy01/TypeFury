@@ -84,12 +84,12 @@ const PracticePage: React.FC = () => {
         <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
           <Keyboard className="w-8 h-8 text-primary dark:text-secondary" />
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            TypeFury Desktop Only
+            typingfury Desktop Only
           </span>
         </h2>
         <div className="space-y-4 text-gray-200">
           <p className="text-lg">
-            TypeFury is a precision typing experience designed for the full
+            typingfury is a precision typing experience designed for the full
             keyboard experience.
           </p>
           <div className="bg-white/5 p-4 rounded-xl space-y-3">

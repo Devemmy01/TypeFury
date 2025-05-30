@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Github, Twitter } from "lucide-react";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
     {
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
-      href: "https://github.com/Devemmy01/TypeFury",
+      href: "https://github.com/Devemmy01/typingfury",
     },
     {
       icon: <Twitter className="w-5 h-5" />,
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
               {/* <Keyboard className="w-6 h-6 text-primary dark:text-secondary" /> */}
               <img src={logo} className="w-12 h-12" alt="" />
               <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                TypeFury
+                typingfury
               </span>
             </Link>
             <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xl">
@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-            © {currentYear} TypeFury. All rights reserved.
+            © {currentYear} typingfury. All rights reserved.
           </p>
         </div>
       </div>

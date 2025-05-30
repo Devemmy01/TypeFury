@@ -1,10 +1,10 @@
 import { UserStats, TestResult, Achievement } from "../types";
 
 const STORAGE_KEYS = {
-  USER_STATS: "typefury_user_stats",
-  TEST_HISTORY: "typefury_test_history",
-  ACHIEVEMENTS: "typefury_achievements",
-  PREFERENCES: "typefury_preferences",
+  USER_STATS: "typingfury_user_stats",
+  TEST_HISTORY: "typingfury_test_history",
+  ACHIEVEMENTS: "typingfury_achievements",
+  PREFERENCES: "typingfury_preferences",
 } as const;
 
 const DEFAULT_USER_STATS: UserStats = {

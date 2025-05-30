@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun, } from "lucide-react";
-import logo from "../../assets/logo.png"
+import { Moon, Sun } from "lucide-react";
+import logo from "../../assets/logo.png";
 import { storage } from "../../utils/storage";
 
 interface HeaderProps {
@@ -30,10 +30,10 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Logo and Navigation */}
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-1">
-                          {/* <Keyboard className="w-6 h-6 text-primary dark:text-secondary" /> */}
-                          <img src={logo} className="w-12 h-12" alt="" />
+              {/* <Keyboard className="w-6 h-6 text-primary dark:text-secondary" /> */}
+              <img src={logo} className="w-12 h-12" alt="" />
               <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                TypeFury
+                typingfury
               </span>
             </Link>
 
