@@ -10,6 +10,7 @@ import { TestDuration, TextContent } from "./types";
 import { useTextContent } from "./hooks/useTextContent";
 import { Keyboard, Laptop, Tablet } from "lucide-react";
 import { ResultsModal } from "./components/TypingTest/ResultsModal";
+import { Analytics } from "@vercel/analytics/react";
 
 const PracticePage: React.FC = () => {
   const [isTestActive, setIsTestActive] = useState(false);
@@ -198,6 +199,7 @@ const StatsPage: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <Analytics />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<PracticePage />} />
