@@ -38,10 +38,10 @@ Then open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## 🏗️ Tech Stack
 
-- **React 18 + Vite** (super fast!)
-- **Tailwind CSS** (for those sweet styles)
-- **TypeScript** (so things don't break)
-
+- **React 18 + Vite**
+- **Tailwind CSS**
+- **TypeScript**
+  
 ---
 
 ## 💬 Why You'll Love It
