@@ -12,7 +12,7 @@ interface ResultsModalProps {
 }
 
 const shareText = (wpm: number, accuracy: number) =>
-  `I just scored ${wpm} WPM with ${accuracy}% accuracy on typingfury! Try to beat my score at https://typingfury.app 🚀`;
+  `I just scored ${wpm} WPM with ${accuracy}% accuracy on typingfury! Try to beat my score at https://typingfury.xyz 🚀`;
 
 export const ResultsModal: React.FC<ResultsModalProps> = ({
   isOpen,
@@ -26,7 +26,7 @@ export const ResultsModal: React.FC<ResultsModalProps> = ({
 
   if (!isOpen) return null;
 
-  const url = encodeURIComponent("https://typingfury.app");
+  const url = encodeURIComponent("https://typingfury.xyz");
   const text = encodeURIComponent(shareText(wpm, accuracy));
 
   const handleCopy = async () => {
@@ -140,7 +140,7 @@ export const ResultsModal: React.FC<ResultsModalProps> = ({
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>Powered by typingfury</p>
-          <p className="mt-1">typingfury.app</p>
+          <p className="mt-1">typingfury.xyz</p>
         </div>
       </motion.div>
     </motion.div>
