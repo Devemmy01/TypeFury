@@ -1,3 +1,4 @@
+
 # typingfury 🎯
 
 Welcome to **typingfury** – a fun, modern typing speed test app! Challenge yourself, unlock achievements, and see how fast (and accurate) your fingers really are.
@@ -11,7 +12,6 @@ Welcome to **typingfury** – a fun, modern typing speed test app! Challenge you
 - **Achievements:** Hit milestones and collect badges as you improve.
 - **History:** Track your progress and see how you're leveling up.
 - **Dark Mode:** Easy on the eyes, day or night.
-- **Mobile Friendly:** Looks great everywhere, but best on desktop for full keyboard action.
 - **Share:** Brag about your score on Twitter or copy a link to share with friends.
 
 ---
@@ -39,11 +39,10 @@ Then open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## 🏗️ Tech Stack
 
-- **React 18 + Vite** (super fast!)
-- **Tailwind CSS** (for those sweet styles)
-- **TypeScript** (so things don't break)
-- **Custom Hooks & Components** (for clean, reusable code)
-
+- **React 18 + Vite**
+- **Tailwind CSS**
+- **TypeScript**
+  
 ---
 
 ## 💬 Why You'll Love It
@@ -52,7 +51,3 @@ Then open [http://localhost:5173](http://localhost:5173) in your browser.
 - Fun achievements and stats
 - Super smooth and modern UI
 - Easy to use, easy to share
-
----
-
-Made with ❤️ by [Your Name]
