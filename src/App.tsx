@@ -82,7 +82,7 @@ const PracticePage: React.FC = () => {
           <Keyboard className="w-12 h-12 text-primary dark:text-secondary" />
         </div>
         <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
-          <Keyboard className="w-8 h-8 text-primary dark:text-secondary" />
+          {/* <Keyboard className="w-8 h-8 text-primary dark:text-secondary" /> */}
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             typingfury Desktop Only
           </span>
