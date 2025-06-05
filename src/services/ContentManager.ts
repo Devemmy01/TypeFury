@@ -1,5 +1,4 @@
 import { TextContent } from "../types";
-import { QuoteAPI, LoremAPI, WikiAPI, WordsAPI, CodeAPI } from "./api";
 
 export class ContentManager {
   private static instance: ContentManager;
